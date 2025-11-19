@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Erick Diaz COMP 272 002
  *
  *   This java file contains the problem solutions for the methods selectionSort,
  *   mergeSortDivisibleByKFirst, asteroidsDestroyed, and numRescueCanoes methods.
@@ -35,15 +35,46 @@ public class ProblemSolutions {
     public static void selectionSort(int[] values, boolean ascending ) {
 
         int n = values.length;
+        //in the case that the user wants a descending order!
+        if(!ascending){
+            //Descending order!
+            //rather than the minimum, we need to find the maximum number
+            //the logic still is the same for the swapping
+            //assuming ascending here
+            for (int i = 0; i < n - 1; i++) {
+                int maxIndex = i; //assumes that the current index we are at holds the max value [most likely not]
 
-        for (int i = 0; i < n - 1; i++) {
+                //we need to check the unsorted portion of the array to find the real max value
+                //in this case we JUST flip the condition!!!
+                for (int j = i + 1; j < n; j++) {
+                    //note the index of the real max value to use for the swapping
+                    if (values[maxIndex] <= values[j]) {
+                        maxIndex = j; //saves real max index
+                    }
+                }
+                //perform swapping!
+                int temp = values[i];
+                values[i] = values[maxIndex];
+                values[maxIndex] = temp;
+            }
+        } else {
+            //assuming ascending here
+            for (int i = 0; i < n - 1; i++) {
+                int minIndex = i; //assumes that the current index we are at holds the min value [most likely not]
 
-            // YOU CODE GOES HERE -- COMPLETE THE INNER LOOP OF THIS
-            // "SELECTION SORT" ALGORITHM.
-            // DO NOT FORGET TO ADD YOUR NAME / SECTION ABOVE
-
+                //we need to check the unsorted portion of the array to find the real min value
+                for (int j = i + 1; j < n; j++) {
+                    //note the index of the real min value to use for the swapping
+                    if (values[minIndex] > values[j]) {
+                        minIndex = j; //saves real min index
+                    }
+                }
+                //perform swapping!
+                int temp = values[i];
+                values[i] = values[minIndex];
+                values[minIndex] = temp;
+            }
         }
-
     } // End class selectionSort
 
 
