@@ -121,8 +121,7 @@ public class ProblemSolutions {
      * The merging portion of the merge sort, divisible by k first
      */
 
-    private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right)
-    {
+    private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right) {
         // YOUR CODE GOES HERE, THIS METHOD IS NO MORE THAN THE STANDARD MERGE PORTION
         // OF A MERGESORT, EXCEPT THE NUMBERS DIVISIBLE BY K MUST GO FIRST WITHIN THE
         // SEQUENCE PER THE DISCUSSION IN THE PROLOGUE ABOVE.
@@ -146,10 +145,13 @@ public class ProblemSolutions {
      * of the ith asteroid.
      *
      * You can arrange for the planet to collide with the asteroids in any arbitrary order.
-     * If the mass of the planet is greater than or equal to the mass of the asteroid, the
-     * asteroid is destroyed and the planet gains the mass of the asteroid. Otherwise, the
-     * planet is destroyed.
-     *
+     *  ^^Maybe organize from min to Max to inc chances??
+     * \/If the mass of the planet is greater than or equal to the mass of the asteroid, the
+     * asteroid is destroyed and the planet gains the mass of the asteroid.// Otherwise, the
+     * planet is destroyed.//
+     * //if(planetMass >= massAsteroid) -> asteroid destroyed & planetMass + asteroidMass = planetGain
+     *  else planetDestoyed
+     *  //RETURN TRUE IF ALL ASTEROIDS ARE DESTROYED -> false if one of them looks like it got poofed
      * Return true if possible for all asteroids to be destroyed. Otherwise, return false.
      *
      * Example 1:
@@ -186,8 +188,16 @@ public class ProblemSolutions {
     public static boolean asteroidsDestroyed(int mass, int[] asteroids) {
 
         // YOUR CODE GOES HERE, CONSIDER USING ARRAYS.SORT()
-
-        return false;
+        Arrays.sort(asteroids);
+        //asteroids[i] is asteroid mass, mass variable refers to planetMass
+        int totalMass = mass;
+        for(int i = 0; i < asteroids.length; i++){
+            if(totalMass < asteroids[i]){
+                return false;
+            }
+            totalMass += asteroids[i];
+        }
+        return true;
 
     }
 
