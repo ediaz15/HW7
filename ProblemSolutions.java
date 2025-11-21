@@ -131,7 +131,65 @@ public class ProblemSolutions {
         // ALLOCATES AUXILIARY DATA STRUCTURES (TEMPORARY ARRAYS). IT WILL BE EASIER
         // TO CODE WITH A SPACE COMPLEXITY OF O(N LOG N), WHICH IS FINE FOR PURPOSES
         // OF THIS PROGRAMMING EXERCISES.
+        //GL WITH THE IF STATEMENTS OF DOOM
+        //merge portion of the sort has two subarrays left and right and we split them in half and until we reach 1 element in said sort
+        //to sort them, we prioritize the numbers divisible by k first THEN sort them as usual for the other portions
+        //using the pseudocode from the slides -> slide 5 of the 6A sorting, we see the merge
+        //where A is the left, B is the right, S might be the temp array
+        //temp arrays that are split in half for the original array
 
+        //here is how we split them:
+        int leftSideSize = mid - left + 1;
+        int rightSideSize = right - mid;
+
+        //copying the array elements since we atm have empty arrays
+        int[] leftSide = Arrays.copyOfRange(arr, left,mid+1);
+        int[] rightSide = Arrays.copyOfRange(arr, mid+1, right+1);
+        int[] sortedArray = new int[right-left+1];
+        //if we worked with ArrayLists, maybe the way in the slides would've been easier
+        //but we would have to move from an index to the length of both arrays, meaning we would need two indexes
+        int leftIndex = 0;
+        int rightIndex = 0;
+        //checks current position OF the sortedArray
+        int sortedIndex = 0; //prioritize left
+        // rather than checking if empty, we can just check for length
+        while(leftIndex < leftSideSize && rightIndex < rightSideSize) {
+            //checking if the element on the left side is divisible by k
+            //Same with right side
+            //ISSUE?: since we want to maintain the order as we approach them
+            //we need to check whether 1 side has a num divisible by k BUT NOT THE OTHER for the variatino
+            // everytmie we add an element, we MUSt increase the index for the side array AND the spot on where we are for the sorted array
+            //otherwise we would override values AND NEVER get out of the while loop
+            if (leftSide[leftIndex] % k == 0 && !(rightSide[rightIndex] % k == 0)) {
+                sortedArray[sortedIndex++] = leftSide[leftIndex++];
+
+            } else if (rightSide[rightIndex] % k == 0 && !(leftSide[leftIndex] % k == 0)) {
+                //same process for the right, BUT not the left
+                sortedArray[sortedIndex++] = rightSide[rightIndex++];
+                //here if BOTH have the divisible by k, we just chose the left one due to order!!!
+            } else if((rightSide[rightIndex] % k == 0) && (leftSide[leftIndex] % k == 0)){
+                sortedArray[sortedIndex++] = leftSide[leftIndex++];
+            }else {
+                //we prioritize whichever is smaller whether if BOTH DONT have a divisible by K num at the sametime!
+                if (leftSide[leftIndex] <= rightSide[rightIndex]) {
+                    sortedArray[sortedIndex++] = leftSide[leftIndex++];
+                } else {
+                    sortedArray[sortedIndex++] = rightSide[rightIndex++];
+                }
+            }
+        }
+
+        //whatever is left, we add it to the original array!
+        while(leftIndex < leftSideSize){
+            sortedArray[sortedIndex++] = leftSide[leftIndex++];
+        }
+        while(rightIndex < rightSideSize){
+            sortedArray[sortedIndex++] = rightSide[rightIndex++];
+        }
+        //copying to the original array!
+        for(int i = 0; i < sortedArray.length; i++) {
+            arr[left + i] = sortedArray[i];
+        }
         return;
 
     }
