@@ -207,8 +207,11 @@ public class ProblemSolutions {
      *
      * You are given an array people where people[i] is the weight of the ith person,
      * and an infinite number of rescue sleds where each sled can carry a maximum weight
-     * of limit. Each sled carries at most two people at the same time, provided the
+     * of limit. Each sled carries at most two people at the same time,
+     * provided the
      * sum of the weight of those people is at most limit. Return the minimum number
+     * so heavier + smaller <= limit cuz AT MOST 2 ppl
+     * otherwise only 1 person
      * of rescue sleds to carry every given person.
      *
      * Example 1:
@@ -234,8 +237,29 @@ public class ProblemSolutions {
     public static int numRescueSleds(int[] people, int limit) {
 
         // YOUR CODE GOES HERE, CONSIDER USING ARRAYS.SORT
+        Arrays.sort(people);
+        int numOfSleds = 0;
+        //look like the biggest person wont ever be over the limit
+        //so we can keep switching the smaller person to compare whether BOTH would fit on boat while respecting limit
+        int smallerPersonIndex = 0;
+        int biggerPersonIndex = people.length - 1;
 
-        return -1;
+        //so we dont double COUNT AND
+        while(smallerPersonIndex <= biggerPersonIndex){
+            int heavierPerson = people[biggerPersonIndex];
+            int smallerPerson = people[smallerPersonIndex];
+            if(heavierPerson + smallerPerson <= limit) {
+                //check the next two ppl cuz we board the ones now!
+                smallerPersonIndex++; //get a slighty bigger smaller person
+                biggerPersonIndex--; //get a lighter bigger person
+                numOfSleds++; //boarded the pair!
+                } else {
+                //NOW we change the bigger person! so we can check the pairs again
+                biggerPersonIndex--;
+                numOfSleds++;
+            }
+        }
+        return numOfSleds;
 
     }
 
